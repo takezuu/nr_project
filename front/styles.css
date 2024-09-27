@@ -36,5 +36,5 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    transition: left 0.3s ease;
+    transition: left 0.6s ease;
 }
