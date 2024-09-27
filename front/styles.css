@@ -12,14 +12,14 @@ body {
     background-color: #454545;
 }
 
-.container {
-    display: flex;
-    border: 3px solid black;
 
-    width: 600px;
-    height: 200px;
-    position: relative;
-	Border-color: green;
+
+.grid-container {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 300px;
+    height: 300px;
 }
 
 .square {
@@ -29,12 +29,40 @@ body {
 	Border-color: green;
 }
 
+.grid-container > :nth-child(1) {
+    grid-row: 1;
+    grid-column: 2;
+} /* Верхняя клетка */
+
+.grid-container > :nth-child(2) {
+    grid-row: 2;
+    grid-column: 1;
+} /* Левая клетка */
+
+.grid-container > :nth-child(3) {
+    grid-row: 2;
+    grid-column: 2;
+} /* Центральная клетка */
+
+.grid-container > :nth-child(4) {
+    grid-row: 2;
+    grid-column: 3;
+} /* Правая клетка */
+
+.grid-container > :nth-child(5) {
+    grid-row: 3;
+    grid-column: 2;
+} /* Нижняя клетка */
+
+
+
 .dot {
-    width: 99px;
-    height: 99px;
+    width: 20px;
+    height: 20px;
     background-color: red;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    transition: left 0.6s ease;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: left 0.3s ease, top 0.3s ease;
 }
