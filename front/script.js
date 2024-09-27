@@ -1,50 +1,55 @@
- const dot = document.getElementById('dot');
-        let currentPosition = 1;
+const dot = document.getElementById('dot');
+let currentPosition = 3; // Начальная позиция в центре (позиция 3)
 
-        function moveDot(position) {
-            const squareWidth = document.querySelector('.square').offsetWidth;
-            dot.style.left = squareWidth * (position - 1) + squareWidth / 2 - dot.offsetWidth / 2 + 'px';
-        }
+const positions = [
+    { top: '16.66%', left: '50%' },  // Позиция 1 - Верхняя
+    { top: '50%', left: '16.66%' },  // Позиция 2 - Левая
+    { top: '50%', left: '50%' },     // Позиция 3 - Центральная
+    { top: '50%', left: '83.33%' },  // Позиция 4 - Правая
+    { top: '83.33%', left: '50%' },  // Позиция 5 - Нижняя
+];
 
-		async function sendMoveRequest(direction) {
-			try {
-				console.log('Sending request with direction:', direction, 'and position:', currentPosition);  // Добавляем лог до запроса
-				
-				const response = await fetch('/move', {  // Убедитесь, что правильный путь
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({ direction: direction, position: currentPosition })
-				});
+function moveDot(position) {
+    dot.style.top = positions[position - 1].top;
+    dot.style.left = positions[position - 1].left;
+}
 
-				// Проверим статус ответа
-				if (!response.ok) {
-					throw new Error(`HTTP error! status: ${response.status}`);
-				}
-
-				const data = await response.json();
-				console.log('Response data:', data);  // Логируем данные ответа
-
-				if (data.position) {
-					currentPosition = data.position;
-					moveDot(currentPosition);
-				} else if (data.error) {
-					console.error('Server error:', data.error);
-				}
-			} catch (error) {
-				console.error('Error moving dot:', error);
-			}
-		}
-
-
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'ArrowRight') {
-                sendMoveRequest('right');
-            } else if (event.key === 'ArrowLeft') {
-                sendMoveRequest('left');
-            }
+async function sendMoveRequest(direction) {
+    try {
+        const response = await fetch('/move', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                direction: direction,
+                position: currentPosition
+            })
         });
 
-        // Инициализируем начальное положение точки
-        moveDot(currentPosition);
+        const data = await response.json();
+        if (data.position) {
+            currentPosition = data.position;
+            moveDot(currentPosition);
+        } else {
+            console.error('Server error:', data);
+        }
+    } catch (error) {
+        console.error('Error sending move request:', error);
+    }
+}
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight') {
+        sendMoveRequest('right');
+    } else if (event.key === 'ArrowLeft') {
+        sendMoveRequest('left');
+    } else if (event.key === 'ArrowUp') {
+        sendMoveRequest('up');
+    } else if (event.key === 'ArrowDown') {
+        sendMoveRequest('down');
+    }
+});
+
+// Инициализируем точку в начальном положении
+moveDot(currentPosition);
