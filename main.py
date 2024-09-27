@@ -15,7 +15,7 @@ async def main():
 
 @app.get("/favicon.ico")
 async def main():
-    return FileResponse("front/favicon.ico")
+    return FileResponse("front/favicon.png")
 
 
 class MoveReq(BaseModel):
