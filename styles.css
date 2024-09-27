@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #454545;
+}
+
+.container {
+    display: flex;
+    border: 3px solid black;
+	
+    width: 600px;
+    height: 200px;
+    position: relative;
+	Border-color: green;
+}
+
+.square {
+    flex: 1;
+    border: 1px solid black;
+	background-color: blue;
+	Border-color: green;
+}
+
+.dot {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: left 0.3s ease;
+}
