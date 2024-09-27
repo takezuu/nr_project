@@ -15,7 +15,7 @@ body {
 .container {
     display: flex;
     border: 3px solid black;
-	
+
     width: 600px;
     height: 200px;
     position: relative;
@@ -30,8 +30,8 @@ body {
 }
 
 .dot {
-    width: 20px;
-    height: 20px;
+    width: 99px;
+    height: 99px;
     background-color: red;
     position: absolute;
     top: 50%;
