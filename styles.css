@@ -1,4 +1,4 @@
-* {
+* { 
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -30,8 +30,8 @@ body {
 }
 
 .dot {
-    width: 20px;
-    height: 20px;
+    width: 99px;
+    height: 99px;
     background-color: red;
     position: absolute;
     top: 50%;
