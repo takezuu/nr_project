@@ -7,11 +7,18 @@ function renderMap(gameMap) {
         row.forEach(cell => {
             const cellDiv = document.createElement('div');
             cellDiv.classList.add('cell');
-            if (cell === 1) {
-                cellDiv.classList.add('player');
-            } else {
-                cellDiv.classList.add('empty');
-            }
+          			
+			switch(cell) {
+			  case 1:
+				cellDiv.classList.add('filed');
+				break;
+			  case 2:
+				cellDiv.classList.add('player');
+				break;
+			  default:
+				cellDiv.classList.add('empty');
+			}
+			
             gameContainer.appendChild(cellDiv);
         });
     });
