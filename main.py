@@ -65,7 +65,6 @@ async def move_func(move: MoveReq, response: Response):
         else:
             response.status_code = status.HTTP_204_NO_CONTENT
             return response
-
     else:
         response.status_code = status.HTTP_204_NO_CONTENT
         return response
