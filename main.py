@@ -10,8 +10,17 @@ app.mount("/static", StaticFiles(directory="front"), name="static")
 
 
 @app.get("/")
-async def main():
+async def home():
     return FileResponse("front/index.html")
+
+
+@app.get("/map")
+async def return_map():
+    return [
+        [0, 0, 1, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 0, 1, 0, 0]
+    ]
 
 
 @app.get("/favicon.ico")
@@ -26,7 +35,6 @@ class MoveReq(BaseModel):
 
 @app.post("/move", status_code=200)
 async def move_func(move: MoveReq, response: Response):
-
     if move.position == 3:
         match move.direction:
             case "up":
