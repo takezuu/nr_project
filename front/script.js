@@ -1,44 +1,44 @@
-const dot = document.getElementById('dot');
-let currentPosition = 3; // Начальная позиция в центре (позиция 3)
+const gameContainer = document.getElementById('game-container');
 
-const positions = [
-    { top: '16.66%', left: '50%' },  // Позиция 1 - Верхняя
-    { top: '50%', left: '16.66%' },  // Позиция 2 - Левая
-    { top: '50%', left: '50%' },     // Позиция 3 - Центральная
-    { top: '50%', left: '83.33%' },  // Позиция 4 - Правая
-    { top: '83.33%', left: '50%' },  // Позиция 5 - Нижняя
-];
-
-function moveDot(position) {
-    dot.style.top = positions[position - 1].top;
-    dot.style.left = positions[position - 1].left;
-}
-
-async function sendMoveRequest(direction) {
-    try {
-        const response = await fetch('/move', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                direction: direction,
-                position: currentPosition
-            })
+// Функция для создания и отображения карты
+function renderMap(gameMap) {
+    gameContainer.innerHTML = '';  // Очищаем контейнер
+    gameMap.forEach(row => {
+        row.forEach(cell => {
+            const cellDiv = document.createElement('div');
+            cellDiv.classList.add('cell');
+            if (cell === 1) {
+                cellDiv.classList.add('player');
+            } else {
+                cellDiv.classList.add('empty');
+            }
+            gameContainer.appendChild(cellDiv);
         });
-
-        const data = await response.json();
-        if (data.position) {
-            currentPosition = data.position;
-            moveDot(currentPosition);
-        } else {
-            console.error('Server error:', data);
-        }
-    } catch (error) {
-        console.error('Error sending move request:', error);
-    }
+    });
 }
 
+// Получение карты с сервера
+async function getMap() {
+    const response = await fetch('/map');
+    const data = await response.json();
+    renderMap(data.map);
+}
+
+// Отправка направления для перемещения игрока
+async function sendMoveRequest(direction) {
+    const response = await fetch('/move', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ direction: direction })
+    });
+
+    const data = await response.json();
+    renderMap(data.map);  // Обновляем карту с новыми позициями
+}
+
+// Добавляем прослушивание нажатий клавиш для перемещения
 document.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowRight') {
         sendMoveRequest('right');
@@ -51,5 +51,5 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// Инициализируем точку в начальном положении
-moveDot(currentPosition);
+// Инициализируем карту при загрузке страницы
+getMap();
