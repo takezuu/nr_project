@@ -13,6 +13,7 @@ app.mount("/static", StaticFiles(directory="front"), name="static")
 async def main():
     return FileResponse("front/index.html")
 
+
 @app.get("/favicon.ico")
 async def main():
     return FileResponse("front/favicon.png")
@@ -25,10 +26,46 @@ class MoveReq(BaseModel):
 
 @app.post("/move", status_code=200)
 async def move_func(move: MoveReq, response: Response):
-    if move.direction == "right" and move.position < 3:
-        return {"position": move.position + 1}
-    elif move.direction == "left" and move.position > 1:
-        return {"position": move.position - 1}
+
+    if move.position == 3:
+        match move.direction:
+            case "up":
+                return {"position": 1}
+            case "down":
+                return {"position": 5}
+            case "left":
+                return {"position": 2}
+            case "right":
+                return {"position": 4}
+
+    elif move.position == 1:
+        if move.direction == "down":
+            return {"position": 3}
+        else:
+            response.status_code = status.HTTP_204_NO_CONTENT
+            return response
+
+    elif move.position == 2:
+        if move.direction == "right":
+            return {"position": 3}
+        else:
+            response.status_code = status.HTTP_204_NO_CONTENT
+            return response
+
+    elif move.position == 4:
+        if move.direction == "left":
+            return {"position": 3}
+        else:
+            response.status_code = status.HTTP_204_NO_CONTENT
+            return response
+
+    elif move.position == 5:
+        if move.direction == "up":
+            return {"position": 3}
+        else:
+            response.status_code = status.HTTP_204_NO_CONTENT
+            return response
+
     else:
         response.status_code = status.HTTP_204_NO_CONTENT
         return response
