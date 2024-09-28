@@ -16,11 +16,11 @@ async def home():
 
 @app.get("/map")
 async def return_map():
-    return [
+    return {"map": [
         [0, 0, 1, 0, 0],
         [0, 1, 1, 1, 0],
         [0, 0, 1, 0, 0]
-    ]
+    ]}
 
 
 @app.get("/favicon.ico")
