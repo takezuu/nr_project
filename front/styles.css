@@ -23,9 +23,13 @@ body {
 }
 
 .player {
-    background-color: red;
+    background-color: blue;
+}
+
+.filed {
+    background-color: purple;
 }
 
 .empty {
-    background-color: lightgray;
+    background-color: none;
 }
