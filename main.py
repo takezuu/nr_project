@@ -8,6 +8,57 @@ app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="front"), name="static")
 
+player_position = {"y": 2,
+                   "x": 2}
+
+main_map = [
+    [0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 1, 1, 1, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0]
+]
+
+zero_main_map = [
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0]
+]
+
+def generate_map():
+    zero_main_map[0][0] = 1
+
+
+def set_begin_player_position(p_position, map_i):
+    map_i[p_position["y"]][p_position["x"]] = 2
+    return map_i
+
+
+def set_player_position(map_i, direction, p_position, response):
+    global player_position
+    x, y = 0, 0
+    if direction == "right":
+        x = 1
+    elif direction == "left":
+        x = -1
+    elif direction == "up":
+        y = -1
+    elif direction == "down":
+        y = 1
+
+    if map_i[p_position["y"] + y][p_position["x"] + x] != 0:
+        map_i[p_position["y"]][p_position["x"]] = 1
+        player_position["x"] += x
+        player_position["y"] += y
+        map_i[p_position["y"]][p_position["x"]] = 2
+        return map_i
+
+    else:
+        response.status_code = status.HTTP_204_NO_CONTENT
+        return response
+
 
 @app.get("/")
 async def home():
@@ -16,11 +67,8 @@ async def home():
 
 @app.get("/map")
 async def return_map():
-    return {"map": [
-        [0, 0, 1, 0, 0],
-        [0, 1, 1, 1, 0],
-        [0, 0, 1, 0, 0]
-    ]}
+    game_map = set_begin_player_position(player_position, main_map)
+    return {"map": game_map}
 
 
 @app.get("/favicon.ico")
@@ -30,49 +78,9 @@ async def main():
 
 class MoveReq(BaseModel):
     direction: str
-    position: int
 
 
 @app.post("/move", status_code=200)
 async def move_func(move: MoveReq, response: Response):
-    if move.position == 3:
-        match move.direction:
-            case "up":
-                return {"position": 1}
-            case "down":
-                return {"position": 5}
-            case "left":
-                return {"position": 2}
-            case "right":
-                return {"position": 4}
-
-    elif move.position == 1:
-        if move.direction == "down":
-            return {"position": 3}
-        else:
-            response.status_code = status.HTTP_204_NO_CONTENT
-            return response
-
-    elif move.position == 2:
-        if move.direction == "right":
-            return {"position": 3}
-        else:
-            response.status_code = status.HTTP_204_NO_CONTENT
-            return response
-
-    elif move.position == 4:
-        if move.direction == "left":
-            return {"position": 3}
-        else:
-            response.status_code = status.HTTP_204_NO_CONTENT
-            return response
-
-    elif move.position == 5:
-        if move.direction == "up":
-            return {"position": 3}
-        else:
-            response.status_code = status.HTTP_204_NO_CONTENT
-            return response
-    else:
-        response.status_code = status.HTTP_204_NO_CONTENT
-        return response
+    game_map = set_player_position(main_map, move.direction, player_position, response)
+    return {"map": game_map}
