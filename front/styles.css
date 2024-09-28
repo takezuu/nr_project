@@ -1,4 +1,4 @@
-* { 
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,10 +9,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #454545;
+    background-color: #f0f0f0;
 }
-
-
 
 .grid-container {
     display: grid;
@@ -24,12 +22,14 @@ body {
 }
 
 .square {
-    flex: 1;
+    background-color: blue;
     border: 1px solid black;
-	background-color: blue;
-	Border-color: green;
+    width: 100%;
+    height: 100%;
+	border-color: green;
 }
 
+/* Располагаем клетки для создания креста */
 .grid-container > :nth-child(1) {
     grid-row: 1;
     grid-column: 2;
@@ -55,8 +55,7 @@ body {
     grid-column: 2;
 } /* Нижняя клетка */
 
-
-
+/* Стили для точки */
 .dot {
     width: 20px;
     height: 20px;
