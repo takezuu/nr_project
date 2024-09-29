@@ -1,4 +1,5 @@
 const gameContainer = document.getElementById('game-container');
+const page = document.querySelector('body');
 
 // Функция для создания и отображения карты
 function renderMap(gameMap) {
@@ -52,7 +53,7 @@ async function sendMoveRequest(direction) {
     renderMap(data.map);  // Обновляем карту с новыми позициями
 	if (data.complete == 1)
 	{
-		gameContainer.style.backgroundImage = "url('bg2.jpg')"
+		page.style.backgroundImage = "url('static/bg2.jpg')"
 		alert("U found exit!");
 	}
 }
