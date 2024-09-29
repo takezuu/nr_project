@@ -4,11 +4,7 @@ const gameContainer = document.getElementById('game-container');
 function renderMap(gameMap) {
     gameContainer.innerHTML = '';  // Очищаем контейнер
 	
-	// Высота двумерного массива (количество строк)
-	const height = array.length;
-
-	// Ширина двумерного массива (количество элементов в первой строке)
-	const width = array[0].length;
+	
 	gameContainer.style.gridTemplateColumns = 'repeat('  + gameMap.length +', 50px)';
 	gameContainer.style.gridTemplateRows = 'repeat('  + gameMap[0].length +', 50px)';
  
