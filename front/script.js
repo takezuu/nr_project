@@ -15,6 +15,9 @@ function renderMap(gameMap) {
 			  case 2:
 				cellDiv.classList.add('player');
 				break;
+			  case 3
+				cellDiv.classList.add('finish');
+				break;
 			  default:
 				cellDiv.classList.add('empty');
 			}

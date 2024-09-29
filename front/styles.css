@@ -25,6 +25,10 @@ body {
 
 }
 
+.exit {
+    background-color: red;
+}
+
 .player {
     background-color: blue;
 }
