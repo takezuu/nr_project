@@ -3,11 +3,9 @@ const gameContainer = document.getElementById('game-container');
 // Функция для создания и отображения карты
 function renderMap(gameMap) {
     gameContainer.innerHTML = '';  // Очищаем контейнер
-	
-	
-	gameContainer.style.gridTemplateColumns = 'repeat('  + gameMap.length +', 50px)';
-	gameContainer.style.gridTemplateRows = 'repeat('  + gameMap[0].length +', 50px)';
- 
+	gameContainer.style.gridTemplateColumns = `repeat(${gameMap.length}, 50px)`;
+	gameContainer.style.gridTemplateRows = `repeat(${gameMap[0].length}, 50px)`;
+
     gameMap.forEach(row => {
         row.forEach(cell => {
             const cellDiv = document.createElement('div');
@@ -37,8 +35,7 @@ async function getMap() {
     const response = await fetch('/map');
     const data = await response.json();
 	renderMap(data.map);
-	if (data.complite == 1)
-		alert("U found exit!");
+	
 }
 
 // Отправка направления для перемещения игрока
@@ -53,6 +50,8 @@ async function sendMoveRequest(direction) {
 
     const data = await response.json();
     renderMap(data.map);  // Обновляем карту с новыми позициями
+	if (data.complete == 1)
+		alert("U found exit!");
 }
 
 // Добавляем прослушивание нажатий клавиш для перемещения
