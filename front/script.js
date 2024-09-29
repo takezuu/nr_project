@@ -51,7 +51,10 @@ async function sendMoveRequest(direction) {
     const data = await response.json();
     renderMap(data.map);  // Обновляем карту с новыми позициями
 	if (data.complete == 1)
+	{
+		gameContainer.style.backgroundImage = "url('bg2.jpg')"
 		alert("U found exit!");
+	}
 }
 
 // Добавляем прослушивание нажатий клавиш для перемещения
