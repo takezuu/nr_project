@@ -3,6 +3,15 @@ const gameContainer = document.getElementById('game-container');
 // Функция для создания и отображения карты
 function renderMap(gameMap) {
     gameContainer.innerHTML = '';  // Очищаем контейнер
+	
+	// Высота двумерного массива (количество строк)
+	const height = array.length;
+
+	// Ширина двумерного массива (количество элементов в первой строке)
+	const width = array[0].length;
+	gameContainer.style.gridTemplateColumns = 'repeat('  + gameMap.length +', 50px)';
+	gameContainer.style.gridTemplateRows = 'repeat('  + gameMap[0].length +', 50px)';
+ 
     gameMap.forEach(row => {
         row.forEach(cell => {
             const cellDiv = document.createElement('div');
@@ -16,7 +25,7 @@ function renderMap(gameMap) {
 				cellDiv.classList.add('player');
 				break;
 			  case 3
-				cellDiv.classList.add('finish');
+				cellDiv.classList.add('exit');
 				break;
 			  default:
 				cellDiv.classList.add('empty');
@@ -31,7 +40,9 @@ function renderMap(gameMap) {
 async function getMap() {
     const response = await fetch('/map');
     const data = await response.json();
-    renderMap(data.map);
+	renderMap(data.map);
+	if (data.complite == 1)
+		alert("U found exit!");
 }
 
 // Отправка направления для перемещения игрока
