@@ -1,4 +1,5 @@
 const gameContainer = document.getElementById('game-container');
+const winer = document.getElementById('win');
 const page = document.querySelector('body');
 
 // Функция для создания и отображения карты
@@ -54,7 +55,9 @@ async function sendMoveRequest(direction) {
 	if (data.complete == 1)
 	{
 		page.style.backgroundImage = "url('static/bg2.jpg')"
-		alert("U found exit!");
+		//alert("U found exit!");
+		gameContainer.style.display = "none";
+		winer.style.display = "contents";
 	}
 }
 
