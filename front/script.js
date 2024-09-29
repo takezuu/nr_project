@@ -24,7 +24,7 @@ function renderMap(gameMap) {
 			  case 2:
 				cellDiv.classList.add('player');
 				break;
-			  case 3
+			  case 3:
 				cellDiv.classList.add('exit');
 				break;
 			  default:
