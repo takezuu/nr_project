@@ -3,32 +3,17 @@ from pydantic import BaseModel
 from fastapi.responses import FileResponse
 from starlette.staticfiles import StaticFiles
 from fastapi import status
+from algo import create_map, print_map
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="front"), name="static")
 
-player_position = {"y": 2,
-                   "x": 2}
+main_map, final, begin_y, begin_x = create_map(10, 10)
+player_position = {"y": begin_y,
+                   "x": begin_x}
 
-main_map = [
-    [0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0],
-    [0, 1, 1, 1, 0],
-    [0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0]
-]
-
-zero_main_map = [
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0]
-]
-
-def generate_map():
-    zero_main_map[0][0] = 1
+print_map(main_map)
 
 
 def set_begin_player_position(p_position, map_i):
@@ -36,7 +21,7 @@ def set_begin_player_position(p_position, map_i):
     return map_i
 
 
-def set_player_position(map_i, direction, p_position, response):
+def set_player_position(map_i, final_i, direction, p_position, response):
     global player_position
     x, y = 0, 0
     if direction == "right":
@@ -53,7 +38,11 @@ def set_player_position(map_i, direction, p_position, response):
         player_position["x"] += x
         player_position["y"] += y
         map_i[p_position["y"]][p_position["x"]] = 2
-        return map_i
+
+        if player_position["y"] == final_i[0] and player_position["x"] == final_i[1]:
+            return map_i, True
+        else:
+            return map_i, False
 
     else:
         response.status_code = status.HTTP_204_NO_CONTENT
@@ -82,5 +71,9 @@ class MoveReq(BaseModel):
 
 @app.post("/move", status_code=200)
 async def move_func(move: MoveReq, response: Response):
-    game_map = set_player_position(main_map, move.direction, player_position, response)
-    return {"map": game_map}
+    game_map, completed = set_player_position(main_map, final, move.direction, player_position, response)
+
+    if completed:
+        return {"map": game_map, "complete": 1}
+    else:
+        return {"map": game_map}
