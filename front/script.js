@@ -1,19 +1,78 @@
-const dot = document.getElementById('dot');
-let currentPosition = 1;
+const gameContainer = document.getElementById('game-container');
+const winer = document.getElementById('win');
+const page = document.querySelector('body');
 
-function moveDot(position) {
-    const squareWidth = document.querySelector('.square').offsetWidth;
-    dot.style.left = squareWidth * (position - 1) + squareWidth / 2 - dot.offsetWidth / 2 + 'px';
+// Функция для создания и отображения карты
+function renderMap(gameMap) {
+    gameContainer.innerHTML = '';  // Очищаем контейнер
+	gameContainer.style.gridTemplateColumns = `repeat(${gameMap.length}, 50px)`;
+	gameContainer.style.gridTemplateRows = `repeat(${gameMap[0].length}, 50px)`;
+
+    gameMap.forEach(row => {
+        row.forEach(cell => {
+            const cellDiv = document.createElement('div');
+            cellDiv.classList.add('cell');
+          			
+			switch(cell) {
+			  case 1:
+				cellDiv.classList.add('filed');
+				break;
+			  case 2:
+				cellDiv.classList.add('player');
+				break;
+			  case 3:
+				cellDiv.classList.add('exit');
+				break;
+			  default:
+				cellDiv.classList.add('empty');
+			}
+			
+            gameContainer.appendChild(cellDiv);
+        });
+    });
 }
 
+// Получение карты с сервера
+async function getMap() {
+    const response = await fetch('/map');
+    const data = await response.json();
+	renderMap(data.map);
+	
+}
+
+// Отправка направления для перемещения игрока
+async function sendMoveRequest(direction) {
+    const response = await fetch('/move', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ direction: direction })
+    });
+
+    const data = await response.json();
+    renderMap(data.map);  // Обновляем карту с новыми позициями
+	if (data.complete == 1)
+	{
+		page.style.backgroundImage = "url('static/bg2.jpg')"
+		//alert("U found exit!");
+		gameContainer.style.display = "none";
+		winer.style.display = "contents";
+	}
+}
+
+// Добавляем прослушивание нажатий клавиш для перемещения
 document.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowRight') {
-        currentPosition = Math.min(currentPosition + 1, 3); // ограничиваем до 3
+        sendMoveRequest('right');
     } else if (event.key === 'ArrowLeft') {
-        currentPosition = Math.max(currentPosition - 1, 1); // ограничиваем до 1
+        sendMoveRequest('left');
+    } else if (event.key === 'ArrowUp') {
+        sendMoveRequest('up');
+    } else if (event.key === 'ArrowDown') {
+        sendMoveRequest('down');
     }
-    moveDot(currentPosition);
 });
 
-// Инициализируем начальное положение точки
-moveDot(currentPosition);
+// Инициализируем карту при загрузке страницы
+getMap();

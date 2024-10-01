@@ -1,40 +1,54 @@
-* { 
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body {
+	margin: 0;
+	height: 100vh; /* Занимаем всю высоту экрана */
+	display: flex;
+	justify-content: center;  /* Центрирование по горизонтали */
+	align-items: center;      /* Центрирование по вертикали */
+	background-color: gray;
+	background-image: url("bg1.jpg");
 }
 
-body {
+#game-container {
+    display: grid;
+    grid-template-columns: repeat(5, 50px); /* Сетка для 5 колонок */
+    grid-template-rows: repeat(3, 50px);    /* Сетка для 3 строк */
+    gap: 1px;
+    position: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+	border-style: solid;
+	opacity: 70%;
+}
+
+#win
+{
+	display: none;
+	color: pink;
+	text-align: center;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #454545;
+	opacity: 70%;
 }
 
-.container {
-    display: flex;
-    border: 3px solid black;
-
-    width: 600px;
-    height: 200px;
-    position: relative;
-	Border-color: green;
-}
-
-.square {
-    flex: 1;
-    border: 1px solid black;
-	background-color: blue;
-	Border-color: green;
-}
-
-.dot {
-    width: 99px;
-    height: 99px;
+.exit {
     background-color: red;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: left 0.6s ease;
+}
+
+.player {
+    background-color: blue;
+}
+
+.filed {
+    background-color: purple;
+}
+
+.empty {
+    background-color: none;
 }
