@@ -1,9 +1,13 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: gray;
+	margin: 0;
+	height: 100vh; /* Занимаем всю высоту экрана */
+	display: flex;
+	justify-content: center;  /* Центрирование по горизонтали */
+	align-items: center;      /* Центрирование по вертикали */
+	background-color: gray;
 	background-image: url("bg1.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 #game-container {
@@ -22,12 +26,8 @@ body {
 #win
 {
 	display: none;
-	font-weight: 600;
 	color: pink;
-	position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 300px;
+	text-align: center;
 }
 
 .cell {
