@@ -74,6 +74,8 @@ async function sendMoveRequest() {
 		winer.style.display = "contents";
 	}
 	//movePlayer(data.playerPosition);
+	playerPosition.y = data.playerPosition.y;
+	playerPosition.x = data.playerPosition.x;
 	renderMap();
 }
 
