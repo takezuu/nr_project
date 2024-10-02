@@ -3,26 +3,29 @@ from pydantic import BaseModel
 from fastapi.responses import FileResponse
 from starlette.staticfiles import StaticFiles
 from fastapi import status
-from algo import create_map, print_map
+from map import Map
+from player import Player
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="front"), name="static")
 
-main_map, final, begin_y, begin_x = create_map(10, 10)
-player_position = {"y": begin_y,
-                   "x": begin_x}
 
-print_map(main_map)
+main_map = Map(7, 7)
+main_map.generate_map()
+main_map.print_map()
+
+player = Player(main_map.start_y, main_map.start_x)
 
 
 def set_begin_player_position(p_position, map_i):
-    map_i[p_position["y"]][p_position["x"]] = 2
+    map_i[p_position.y][p_position.x] = 2
     return map_i
 
 
+
 def set_player_position(map_i, final_i, direction, p_position, response):
-    global player_position
+    global player, main_map
     x, y = 0, 0
     if direction == "right":
         x = 1
@@ -33,20 +36,26 @@ def set_player_position(map_i, final_i, direction, p_position, response):
     elif direction == "down":
         y = 1
 
-    if map_i[p_position["y"] + y][p_position["x"] + x] != 0:
-        map_i[p_position["y"]][p_position["x"]] = 1
-        player_position["x"] += x
-        player_position["y"] += y
-        map_i[p_position["y"]][p_position["x"]] = 2
+    try:
+        if map_i[p_position.y + y][p_position.x + x] != 0:
+            if p_position.y + y != -1 and p_position.x + x != -1:
 
-        if player_position["y"] == final_i[0] and player_position["x"] == final_i[1]:
-            return map_i, True
+
+                map_i[p_position.y][p_position.x] = 1
+                player.y += y
+                player.x += x
+                map_i[p_position.y][p_position.x] = 2
+
+                if player.y == final_i[0] and player.x == final_i[1]:
+                    return map_i, True
+                else:
+                    return map_i, False
+
         else:
-            return map_i, False
-
-    else:
-        response.status_code = status.HTTP_204_NO_CONTENT
-        return response
+            response.status_code = status.HTTP_204_NO_CONTENT
+            return response
+    except IndexError:
+        pass
 
 
 @app.get("/")
@@ -56,7 +65,7 @@ async def home():
 
 @app.get("/map")
 async def return_map():
-    game_map = set_begin_player_position(player_position, main_map)
+    game_map = set_begin_player_position(player, main_map.map)
     return {"map": game_map}
 
 
@@ -71,9 +80,12 @@ class MoveReq(BaseModel):
 
 @app.post("/move", status_code=200)
 async def move_func(move: MoveReq, response: Response):
-    game_map, completed = set_player_position(main_map, final, move.direction, player_position, response)
+    try:
+        game_map, completed = set_player_position(main_map.map, main_map.final, move.direction, player, response)
 
-    if completed:
-        return {"map": game_map, "complete": 1}
-    else:
-        return {"map": game_map}
+        if completed:
+            return {"map": game_map, "complete": 1}
+        else:
+            return {"map": game_map}
+    except TypeError:
+        pass

@@ -6,6 +6,8 @@ body {
 	align-items: center;      /* Центрирование по вертикали */
 	background-color: gray;
 	background-image: url("bg1.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 #game-container {
