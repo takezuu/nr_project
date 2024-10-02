@@ -49,7 +49,7 @@ async function getMap() {
     const data = await response.json();
 	main_map = data.map;
 	playerPosition = data.playerPosition;
-	renderMap(data.map);
+	renderMap();
 	
 }
 
@@ -65,7 +65,7 @@ async function sendMoveRequest() {
 
     const data = await response.json();
 	main_map = data.map;
-    renderMap(data.map);// Обновляем карту с новыми позициями
+   // Обновляем карту с новыми позициями
 	if (data.complete == 1)
 	{
 		page.style.backgroundImage = "url('static/bg2.jpg')"
@@ -75,6 +75,7 @@ async function sendMoveRequest() {
 	}
 	//movePlayer(data.playerPosition);
 	playerPosition = data.playerPosition ;
+	renderMap();
  
 	
 }
