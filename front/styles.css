@@ -4,7 +4,7 @@ body {
 	display: flex;
 	justify-content: center;  /* Центрирование по горизонтали */
 	align-items: center;      /* Центрирование по вертикали */
-	background-color: gray;
+	background-color: black;
 	background-image: url("bg1.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -26,8 +26,10 @@ body {
 #win
 {
 	display: none;
-	color: pink;
+	color: white;
 	text-align: center;
+	font-size: 50px;
+	text-shadow: 5px 2px black;
 }
 
 .cell {
