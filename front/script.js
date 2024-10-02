@@ -48,6 +48,8 @@ async function getMap() {
     const response = await fetch('/map');
     const data = await response.json();
 	main_map = data.map;
+	playerPosition.y = data.playerPosition.y;
+	playerPosition.x = data.playerPosition.x;
 	renderMap(data.map);
 	
 }
