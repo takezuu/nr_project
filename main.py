@@ -1,3 +1,5 @@
+from typing import Union, Tuple
+
 from fastapi import FastAPI, Response
 from pydantic import BaseModel
 from fastapi.responses import FileResponse
@@ -14,18 +16,13 @@ main_map = Map(7, 7)
 main_map.generate_map()
 main_map.print_map()
 
-player = Player(main_map.start_y, main_map.start_x)
+main_player = Player(main_map.start_y, main_map.start_x)
 
 
-def set_begin_player_position(p_position, map_i):
-    map_i[p_position.y][p_position.x] = 2
-    return map_i
-
-
-def set_player_position(map_i, final_i, direction, p_position, response):
-    global player, main_map
+def set_player_position(game_map: Map, player: Player, direction: str = None, response: Response = None):
     x, y = 0, 0
-
+    final = game_map.final
+    game_map = game_map.map
     match direction:
         case "right":
             x = 1
@@ -35,20 +32,22 @@ def set_player_position(map_i, final_i, direction, p_position, response):
             y = -1
         case "down":
             y = 1
+        case _:
+            pass
 
     try:
-        if map_i[p_position.y + y][p_position.x + x] != 0:
-            if p_position.y + y != -1 and p_position.x + x != -1:
+        if game_map[player.y + y][player.x + x] != 0:
+            if player.y + y != -1 and player.x + x != -1:
 
-                map_i[p_position.y][p_position.x] = 1
+                game_map[player.y][player.x] = 1
                 player.y += y
                 player.x += x
-                map_i[p_position.y][p_position.x] = 2
+                game_map[player.y][player.x] = 2
 
-                if player.y == final_i[0] and player.x == final_i[1]:
-                    return map_i, True
+                if player.y == final[0] and player.x == final[1]:
+                    return game_map, True
                 else:
-                    return map_i, False
+                    return game_map, False
 
         else:
             response.status_code = status.HTTP_204_NO_CONTENT
@@ -64,8 +63,8 @@ async def home():
 
 @app.get("/map")
 async def return_map():
-    game_map = set_begin_player_position(player, main_map.map)
-    return {"map": game_map}
+    set_player_position(main_map, main_player)
+    return {"map": main_map.map}
 
 
 @app.get("/favicon.ico")
@@ -80,7 +79,7 @@ class MoveReq(BaseModel):
 @app.post("/move", status_code=200)
 async def move_func(move: MoveReq, response: Response):
     try:
-        game_map, completed = set_player_position(main_map.map, main_map.final, move.direction, player, response)
+        game_map, completed = set_player_position(main_map, main_player, move.direction, response)
 
         if completed:
             return {"map": game_map, "complete": 1}
