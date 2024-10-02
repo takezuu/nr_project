@@ -10,7 +10,6 @@ app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="front"), name="static")
 
-
 main_map = Map(7, 7)
 main_map.generate_map()
 main_map.print_map()
@@ -23,23 +22,23 @@ def set_begin_player_position(p_position, map_i):
     return map_i
 
 
-
 def set_player_position(map_i, final_i, direction, p_position, response):
     global player, main_map
     x, y = 0, 0
-    if direction == "right":
-        x = 1
-    elif direction == "left":
-        x = -1
-    elif direction == "up":
-        y = -1
-    elif direction == "down":
-        y = 1
+
+    match direction:
+        case "right":
+            x = 1
+        case "left":
+            x = -1
+        case "up":
+            y = -1
+        case "down":
+            y = 1
 
     try:
         if map_i[p_position.y + y][p_position.x + x] != 0:
             if p_position.y + y != -1 and p_position.x + x != -1:
-
 
                 map_i[p_position.y][p_position.x] = 1
                 player.y += y
