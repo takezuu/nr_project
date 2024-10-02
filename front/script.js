@@ -86,9 +86,9 @@ document.addEventListener('keydown', (event) => {
     } else if (event.key === 'ArrowLeft') {
         playerPosition.x-=1;
     } else if (event.key === 'ArrowUp') {
-        playerPosition.y+=1;
-    } else if (event.key === 'ArrowDown') {
         playerPosition.y-=1;
+    } else if (event.key === 'ArrowDown') {
+        playerPosition.y+=1;
     }
 	sendMoveRequest();
 });
