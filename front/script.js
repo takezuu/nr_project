@@ -48,8 +48,7 @@ async function getMap() {
     const response = await fetch('/map');
     const data = await response.json();
 	main_map = data.map;
-	playerPosition.y = data.playerPosition.y;
-	playerPosition.x = data.playerPosition.x;
+	playerPosition = data.playerPosition;
 	renderMap(data.map);
 	
 }
@@ -65,6 +64,7 @@ async function sendMoveRequest() {
     });
 
     const data = await response.json();
+	main_map = data.map;
     renderMap(data.map);// Обновляем карту с новыми позициями
 	if (data.complete == 1)
 	{
@@ -74,9 +74,9 @@ async function sendMoveRequest() {
 		winer.style.display = "contents";
 	}
 	//movePlayer(data.playerPosition);
-	playerPosition.y = data.playerPosition.y;
-	playerPosition.x = data.playerPosition.x;
-	renderMap();
+	playerPosition = data.playerPosition ;
+ 
+	
 }
 
 // Добавляем прослушивание нажатий клавиш для перемещения
