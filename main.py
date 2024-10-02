@@ -41,8 +41,8 @@ async def move_func(move: MoveReq, response: Response):
         game_map, completed = main_player.set_player_position(main_map, move.playerPosition, response)
 
         if completed:
-            return {"playerPosition": {"y": main_player.y, "x": main_player.x}, "complete": 1}
+            return {"map": game_map, "playerPosition": {"y": main_player.y, "x": main_player.x}, "complete": 1}
         else:
-            return {"playerPosition": {"y": main_player.y, "x": main_player.x}}
+            return {"map": game_map, "playerPosition": {"y": main_player.y, "x": main_player.x}}
     except TypeError:
         pass

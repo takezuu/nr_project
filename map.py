@@ -39,14 +39,14 @@ class Map:
         self.map[self.y][self.x] = 1
 
         path_length = 0
-        while path_length < 57:
+        while path_length < 50:
             loop_flag = True
             while loop_flag:
                 path_length += 1
                 moves = self.find_available_moves()
                 loop_flag = self.select_move(moves)
 
-                if loop_flag is False and path_length < 57:
+                if loop_flag is False and path_length < 50:
                     path_length = 0
                     self.create_empty_map()
                     self.generate_start_position()
@@ -85,7 +85,6 @@ class Map:
                                 (new_y - 1 == self.start_y and new_x + 0 == self.start_x) or \
                                 (new_y - 0 == self.start_y and new_x + 1 == self.start_x):
                             score += 1
-
 
                 if score <= 2:
 
