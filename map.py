@@ -55,16 +55,14 @@ class Map:
     def find_available_moves(self) -> list[tuple]:
         available_moves = []
         check_tuples = [(0, -1), (0, 1), (-1, 0), (1, 0)]  # координаты для расчета доступных ходов
-        move = 0
         for check in check_tuples:
             try:
                 if self.map[self.y + check[0]][self.x + check[1]] == 0 or self.map[self.y + check[0]][
                     self.x + check[1]] != 1:
                     if (self.y + check[0]) != -1 and (self.x + check[1]) != -1:
                         available_moves.append((self.y + check[0], self.x + check[1]))
-                        move += 1
             except IndexError:
-                move += 1
+                pass
         return available_moves
 
     def select_move(self, moves: list[tuple]) -> bool:

@@ -5,6 +5,12 @@ from starlette.staticfiles import StaticFiles
 from map import Map
 from player import Player
 
+
+class MoveReq(BaseModel):
+    col: int
+    row: int
+
+
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="front2"), name="static")
 
@@ -29,22 +35,17 @@ async def return_map() -> dict:
     main_player.set_player_position(main_map)
     main_map.print_map()
     start = {"playerPosition": {"row": main_player.y, "col": main_player.x}}
-    print("start", start)
     return {"map": main_map.map, "playerPosition": {"row": main_player.y, "col": main_player.x}}
 
 
-class MoveReq(BaseModel):
-    playerPosition: dict
-
-
 @app.post("/move", status_code=200)
-async def move_func(move: MoveReq, response: Response):
+async def move_func(move: MoveReq):
     try:
-        bool_move, completed = main_player.set_player_position(main_map, move.playerPosition, response)
+        bool_move, completed = main_player.set_player_position(main_map, move)
 
         if completed:
-            print("move", {"playerPosition": {"row": main_player.y, "col": main_player.x}})
-            return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "complete": 1, "moveForward": bool_move}
+            return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "complete": 1,
+                    "moveForward": bool_move}
         else:
             return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "moveForward": bool_move}
     except TypeError:
