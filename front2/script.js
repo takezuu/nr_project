@@ -58,13 +58,14 @@ if (gameMap[row][col] == 1 || gameMap[row][col] == 3){
 		// Делаем кликнутую клетку активной
 		var check = await sendMoveRequest(col, row);
 		if (check == true){
+			var vic = gameMap[row][col] == 3
 			gameMap[row][col] = 2;
 			// Обновляем активную клетку
 			playerPosition = { row, col };
 			// Перерисовываем поле с обновленным массивом
 			createGameBoard(cellSize);
-			if (gameMap[row][col] == 3) {
-				await sendMoveRequest(col, row);
+			if (vic) {
+				//await sendMoveRequest(col, row);
 				displayVictoryScreen();
 			}
 		}
