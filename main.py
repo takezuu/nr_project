@@ -14,7 +14,7 @@ class MoveReq(BaseModel):
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="front2"), name="static")
 
-main_map = Map(40, 20)
+main_map = Map(80, 60)
 main_map.generate_map()
 
 main_player = Player(main_map.start_y, main_map.start_x)

@@ -3,7 +3,7 @@ import random
 
 class Map:
 
-    def __init__(self, columns: int, rows: int):
+    def __init__(self, rows: int, columns: int):
         self.columns = columns
         self.rows = rows
         self.min_row = 0
@@ -39,14 +39,14 @@ class Map:
         self.map[self.y][self.x] = 1
 
         path_length = 0
-        while path_length < 200:
+        while path_length < 500000:
             loop_flag = True
             while loop_flag:
                 path_length += 1
                 moves = self.find_available_moves()
                 loop_flag = self.select_move(moves)
 
-                if loop_flag is False and path_length < 200:
+                if loop_flag is False and path_length < 500000:
                     path_length = 0
                     self.create_empty_map()
                     self.generate_start_position()
