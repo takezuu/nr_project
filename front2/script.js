@@ -56,7 +56,7 @@ async function moveHandler(row, col) {
 	
 	if (gameMap[row][col] == 1){
 		// Делаем кликнутую клетку активной
-		var check = await sendMoveRequest();
+		var check = await sendMoveRequest(col, row);
 		if (check == true){
 			gameMap[row][col] = 2;
 			// Обновляем активную клетку
@@ -128,14 +128,14 @@ async function getMap() {
 }
 
 
-async function sendMoveRequest() {
+async function sendMoveRequest(col, row) {
 	//return !false;  // заглушка 
     const response = await fetch('/move', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ playerPosition: playerPosition })
+        body: JSON.stringify({ col, row })
     });
 
     const data = await response.json();
