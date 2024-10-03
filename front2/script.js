@@ -60,7 +60,7 @@ async function moveHandler(row, col) {
 		if (check == true){
 			gameMap[row][col] = 2;
 			// Обновляем активную клетку
-			playerPosition = { row, col };
+			playerPosition = { "playerPosition" : { row, col } };
 			// Перерисовываем поле с обновленным массивом
 			createGameBoard(cellSize);
 		}
