@@ -8,7 +8,7 @@ from player import Player
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="front2"), name="static")
 
-main_map = Map(80, 60)
+main_map = Map(40, 20)
 main_map.generate_map()
 
 main_player = Player(main_map.start_y, main_map.start_x)
@@ -28,7 +28,9 @@ async def main():
 async def return_map() -> dict:
     main_player.set_player_position(main_map)
     main_map.print_map()
-    return {"map": main_map.map, "playerPosition": {"y": main_player.y, "x": main_player.x}}
+    start = {"playerPosition": {"row": main_player.y, "col": main_player.x}}
+    print("start", start)
+    return {"map": main_map.map, "playerPosition": {"row": main_player.y, "col": main_player.x}}
 
 
 class MoveReq(BaseModel):
@@ -41,8 +43,9 @@ async def move_func(move: MoveReq, response: Response):
         bool_move, completed = main_player.set_player_position(main_map, move.playerPosition, response)
 
         if completed:
-            return {"playerPosition": {"y": main_player.y, "x": main_player.x}, "complete": 1, "moveForward": bool_move}
+            print("move", {"playerPosition": {"row": main_player.y, "col": main_player.x}})
+            return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "complete": 1, "moveForward": bool_move}
         else:
-            return {"playerPosition": {"y": main_player.y, "x": main_player.x}, "moveForward": bool_move}
+            return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "moveForward": bool_move}
     except TypeError:
         pass
