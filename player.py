@@ -47,3 +47,5 @@ class Player:
             except IndexError:
                 pass
         return available_moves
+
+print(ji)
