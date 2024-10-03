@@ -1,0 +1,63 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #262525;
+	background-image: none;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+}
+
+#gameBoard {
+    display: flex;
+    flex-wrap: wrap;
+    background-image: url("bg1.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+/* Стили для победного экрана */
+#victoryScreen {
+    display: none; /* Скрыт по умолчанию */
+    position: relative;
+    text-align: center;
+    width: 100%; /* Ширина и высота контейнера для победного экрана */
+    height: 100%;
+}
+
+#victoryScreen img {
+    width: 100%; /* Картинка растягивается по ширине контейнера */
+    height: 100%; /* Картинка растягивается по высоте контейнера */
+    object-fit: cover; /* Обеспечивает полное покрытие области, растягивая изображение */
+}
+
+#victoryScreen h1 {
+    position: absolute;
+    top: 50%; /* Центрируем текст по вертикали */
+    left: 50%; /* Центрируем текст по горизонтали */
+    transform: translate(-50%, -50%); /* Центровка текста */
+    font-size: 3em;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Тень для улучшения видимости текста на фоне */
+}
+
+.cell {
+    border: 1px solid #2b2b2b;
+    box-sizing: border-box;
+	opacity: 85%;
+}
+
+.cell.active {
+    background-color: #555;
+}
+
+.cell.exit {
+    background-color: red;
+}
+
+.cell.player {
+    background-color: blue;
+}

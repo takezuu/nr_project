@@ -2,90 +2,51 @@ from fastapi import FastAPI, Response
 from pydantic import BaseModel
 from fastapi.responses import FileResponse
 from starlette.staticfiles import StaticFiles
-from fastapi import status
 from map import Map
 from player import Player
 
+
+class MoveReq(BaseModel):
+    col: int
+    row: int
+
+
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="front2"), name="static")
 
-app.mount("/static", StaticFiles(directory="front"), name="static")
-
-
-main_map = Map(7, 7)
+main_map = Map(40, 20)
 main_map.generate_map()
-main_map.print_map()
 
-player = Player(main_map.start_y, main_map.start_x)
-
-
-def set_begin_player_position(p_position, map_i):
-    map_i[p_position.y][p_position.x] = 2
-    return map_i
-
-
-
-def set_player_position(map_i, final_i, direction, p_position, response):
-    global player, main_map
-    x, y = 0, 0
-    if direction == "right":
-        x = 1
-    elif direction == "left":
-        x = -1
-    elif direction == "up":
-        y = -1
-    elif direction == "down":
-        y = 1
-
-    try:
-        if map_i[p_position.y + y][p_position.x + x] != 0:
-            if p_position.y + y != -1 and p_position.x + x != -1:
-
-
-                map_i[p_position.y][p_position.x] = 1
-                player.y += y
-                player.x += x
-                map_i[p_position.y][p_position.x] = 2
-
-                if player.y == final_i[0] and player.x == final_i[1]:
-                    return map_i, True
-                else:
-                    return map_i, False
-
-        else:
-            response.status_code = status.HTTP_204_NO_CONTENT
-            return response
-    except IndexError:
-        pass
+main_player = Player(main_map.start_y, main_map.start_x)
 
 
 @app.get("/")
 async def home():
-    return FileResponse("front/index.html")
-
-
-@app.get("/map")
-async def return_map():
-    game_map = set_begin_player_position(player, main_map.map)
-    return {"map": game_map}
+    return FileResponse("front2/board.html")
 
 
 @app.get("/favicon.ico")
 async def main():
-    return FileResponse("front/favicon.png")
+    return FileResponse("front2/favicon.png")
 
 
-class MoveReq(BaseModel):
-    direction: str
+@app.get("/map")
+async def return_map() -> dict:
+    main_player.set_player_position(main_map)
+    main_map.print_map()
+    start = {"playerPosition": {"row": main_player.y, "col": main_player.x}}
+    return {"map": main_map.map, "playerPosition": {"row": main_player.y, "col": main_player.x}}
 
 
 @app.post("/move", status_code=200)
-async def move_func(move: MoveReq, response: Response):
+async def move_func(move: MoveReq):
     try:
-        game_map, completed = set_player_position(main_map.map, main_map.final, move.direction, player, response)
+        bool_move, completed = main_player.set_player_position(main_map, move)
 
         if completed:
-            return {"map": game_map, "complete": 1}
+            return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "complete": 1,
+                    "moveForward": bool_move}
         else:
-            return {"map": game_map}
+            return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "moveForward": bool_move}
     except TypeError:
         pass
