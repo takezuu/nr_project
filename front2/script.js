@@ -54,7 +54,7 @@ async function moveHandler(row, col) {
         gameMap[playerPosition.row][playerPosition.col] = 1; // Убираем закраску с предыдущей клетки
     }
 	
-	if (gameMap[row][col] == 1){
+if (gameMap[row][col] == 1 || gameMap[row][col] == 3){
 		// Делаем кликнутую клетку активной
 		var check = await sendMoveRequest(col, row);
 		if (check == true){
@@ -63,11 +63,13 @@ async function moveHandler(row, col) {
 			playerPosition = { row, col };
 			// Перерисовываем поле с обновленным массивом
 			createGameBoard(cellSize);
+			if (gameMap[row][col] == 3) {
+				await sendMoveRequest(col, row);
+				displayVictoryScreen();
+			}
 		}
 	}
-	else if (gameMap[row][col] == 3) {
-		displayVictoryScreen();
-	}
+	
 	
 }
 
