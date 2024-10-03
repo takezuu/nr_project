@@ -3,7 +3,7 @@ import random
 
 class Map:
 
-    def __init__(self, columns: int, rows: int):
+    def __init__(self, rows: int, columns: int):
         self.columns = columns
         self.rows = rows
         self.min_row = 0
