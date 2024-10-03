@@ -123,6 +123,7 @@ async function getMap() {
     const data = await response.json();
 	gameMap = data.map;
 	playerPosition = data.playerPosition;
+	createGameBoard(cellSize);
 	
 }
 
@@ -145,5 +146,5 @@ async function sendMoveRequest() {
 
 getMap();
 
-createGameBoard(cellSize);
+
  
