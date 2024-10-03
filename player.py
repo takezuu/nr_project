@@ -1,5 +1,3 @@
-from typing import Any, Union
-from fastapi import status
 from map import Map
 from fastapi import Response
 
@@ -29,11 +27,12 @@ class Player:
                         game_map[y][x] = 2
 
                         if self.y == final[0] and self.x == final[1]:
-                            return game_map, True
+                            return True, True
+                        else:
+                            return True, False
 
-                return game_map, False
+                return False, False
             except IndexError:
-                return game_map, False
+                return False, False
         else:
             game_map[self.y][self.x] = 2
-            return game_map, False
