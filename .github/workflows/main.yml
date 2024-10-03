@@ -23,6 +23,6 @@ jobs:
       # Step 3: Deploy using SSH (change the server details and path to your application)
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no root@89.22.228.122 'bash -s' < ./deploy.sh
+          ssh -o StrictHostKeyChecking=no root@89.22.228.122 'bash -s' < /root/deploy.sh
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
