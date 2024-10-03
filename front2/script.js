@@ -60,7 +60,7 @@ async function moveHandler(row, col) {
 		if (check == true){
 			gameMap[row][col] = 2;
 			// Обновляем активную клетку
-			playerPosition = { "playerPosition" : { row, col } };
+			playerPosition = { row, col };
 			// Перерисовываем поле с обновленным массивом
 			createGameBoard(cellSize);
 		}
@@ -135,7 +135,7 @@ async function sendMoveRequest(col, row) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ col, row })
+        body: JSON.stringify({"col": col, "row": row})
     });
 
     const data = await response.json();
