@@ -45,13 +45,12 @@ body {
 }
 
 .cell {
-    border: 1px solid #2b2b2b;
     box-sizing: border-box;
-	opacity: 85%;
+	opacity: 50%;
 }
 
 .cell.active {
-    background-color: #555;
+    background-color: purple;
 }
 
 .cell.exit {

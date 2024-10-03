@@ -46,6 +46,7 @@ class Map:
                 moves = self.find_available_moves()
                 loop_flag = self.select_move(moves)
 
+
                 if loop_flag is False and path_length < 200:
                     path_length = 0
                     self.create_empty_map()
