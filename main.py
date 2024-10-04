@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response
+from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.responses import FileResponse
 from starlette.staticfiles import StaticFiles
@@ -41,9 +41,11 @@ async def return_map() -> dict:
 
 
 @app.get("/remap")
-async def return_new_map() -> dict:
+async def return_new_map():
     global main_map, main_player
 
+    if not main_map.completed:
+        return "Now it's your problem go back to default URL"
     main_map.create_empty_map()
     main_map.generate_map()
 
@@ -65,6 +67,7 @@ async def move_func(move: MoveReq):
             return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "complete": 1,
                     "moveForward": bool_move}
         else:
+            main_map.completed = True
             return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "moveForward": bool_move}
     except TypeError:
         pass
