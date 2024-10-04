@@ -67,6 +67,7 @@ if (gameMap[row][col] == 1 || gameMap[row][col] == 3){
 			if (vic) {
 				//await sendMoveRequest(col, row);
 				displayVictoryScreen();
+				setTimeout(() => {	getMap('/remap'); }, 5000);
 			}
 		}
 	}
@@ -86,7 +87,7 @@ function displayVictoryScreen() {
     const victoryImage = document.createElement('img');
     victoryImage.src = 'static/bg2.jpg'; // Укажите путь к изображению
     const victoryText = document.createElement('h1');
-    victoryText.textContent = 'You won this round!!!';
+    victoryText.textContent = 'You won this round!!!\r\nNew map loading...';
 
     victoryScreen.appendChild(victoryImage);
     victoryScreen.appendChild(victoryText);
@@ -121,14 +122,19 @@ document.addEventListener('keydown', (event) => {
 });
 
 
-async function getMap() {
-    const response = await fetch('/map');
+async function getMap(url) {
+    const response = await fetch(url);
     const data = await response.json();
 	gameMap = data.map;
 	playerPosition = data.playerPosition;
 	createGameBoard(cellSize);
-	
+	gameBoard.style.display = 'flex';
+	victoryScreen.style.display = 'none';
+	victoryScreen.remove();
 }
+
+
+ 
 
 
 async function sendMoveRequest(col, row) {
@@ -147,7 +153,7 @@ async function sendMoveRequest(col, row) {
 	return data.moveForward;
 }
 
-getMap();
+getMap('/map');
 
 
  
