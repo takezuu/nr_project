@@ -43,14 +43,14 @@ class Map:
     def generate_path(self) -> None:
         self.map[self.y][self.x] = 1
         path_length = 0
-        while path_length < 10:
+        while path_length < 200:
             loop_flag = True
             while loop_flag:
                 path_length += 1
                 moves = self.find_available_moves()
                 loop_flag = self.select_move(moves)
 
-                if loop_flag is False and path_length < 10:
+                if loop_flag is False and path_length < 200:
                     path_length = 0
                     self.create_empty_map()
                     self.generate_start_position()

@@ -17,7 +17,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="front2"), name="static")
 logger = Logger()
 
-main_map = Map(10, 10, logger)
+main_map = Map(30, 40, logger)
 main_map.generate_map()
 
 main_player = Player(main_map.start_y, main_map.start_x, logger)
