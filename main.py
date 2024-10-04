@@ -47,6 +47,7 @@ async def return_new_map():
     if not main_map.completed:
         return "Now it's your problem go back to default URL"
     main_map.create_empty_map()
+    main_map.completed = False
     main_map.generate_map()
 
     main_player.y = main_map.start_y
