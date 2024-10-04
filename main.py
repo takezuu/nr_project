@@ -36,7 +36,16 @@ async def main():
 async def return_map() -> dict:
     main_player.set_player_position(main_map)
     main_map.print_map()
-    start = {"playerPosition": {"row": main_player.y, "col": main_player.x}}
+    return {"map": main_map.map, "playerPosition": {"row": main_player.y, "col": main_player.x}}
+
+
+@app.get("/map/new")
+async def return_map() -> dict:
+    global main_map, main_player
+    main_map = Map(35, 60, logger)
+    main_player = Player(main_map.start_y, main_map.start_x)
+    main_player.set_player_position(main_map)
+    main_map.print_map()
     return {"map": main_map.map, "playerPosition": {"row": main_player.y, "col": main_player.x}}
 
 
@@ -46,6 +55,8 @@ async def move_func(move: MoveReq):
         bool_move, completed = main_player.set_player_position(main_map, move)
 
         if completed:
+            del main_player
+            del main_map
             return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "complete": 1,
                     "moveForward": bool_move}
         else:

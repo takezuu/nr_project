@@ -24,7 +24,6 @@ class Map:
 
     def create_empty_map(self) -> None:
         self.map = [[0 for _ in range(self.columns)] for _ in range(self.rows)]
-        self.logger.info(f"Cоздана пустая карта")
 
     def print_map(self) -> None:
         for n, row in enumerate(self.map):
@@ -40,13 +39,12 @@ class Map:
 
         if self.y != self.min_row or self.y != self.max_row:
             self.start_x = self.x = random.choice([self.min_column, self.max_column])
-        self.logger.info(f"Сгенерирована стартовая точка: row={self.start_y}, col={self.start_x}")
+
 
     def generate_path(self) -> None:
         self.map[self.y][self.x] = 1
         path_length = 0
         while path_length < 200:
-            self.logger.info("Начинаю генерацию пути")
             loop_flag = True
             while loop_flag:
                 path_length += 1
@@ -58,7 +56,6 @@ class Map:
                     self.create_empty_map()
                     self.generate_start_position()
                     self.map[self.y][self.x] = 1
-                    self.logger.info("Путь сгенерирован")
 
     def find_available_moves(self) -> list[tuple]:
         available_moves = []
@@ -113,4 +110,5 @@ class Map:
         self.create_empty_map()
         self.generate_start_position()
         self.generate_path()
+        self.logger.info(f"Сгенерирована стартовая точка: row={self.start_y}, col={self.start_x}")
         self.logger.info("Генерация карты окончена")
