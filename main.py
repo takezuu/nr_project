@@ -64,10 +64,10 @@ async def move_func(move: MoveReq):
         bool_move, completed = main_player.set_player_position(main_map, move)
 
         if completed:
+            main_map.completed = True
             return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "complete": 1,
                     "moveForward": bool_move}
         else:
-            main_map.completed = True
             return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "moveForward": bool_move}
     except TypeError:
         pass
