@@ -3,14 +3,16 @@ from map import Map
 
 class Player:
 
-    def __init__(self, y: int, x: int):
+    def __init__(self, y: int, x: int, logger):
         self.y = y
         self.x = x
+        self.log = logger.logger
 
     def get_player_position(self) -> dict:
         return {"y": self.y, "x": self.x}
 
     def set_player_position(self, game_map: Map, direction=None):
+        self.log.info(f"new coords {self.y} {self.x}")
         final = game_map.final
         only_game_map = game_map.map
         if direction:

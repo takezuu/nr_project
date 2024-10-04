@@ -40,7 +40,6 @@ class Map:
         if self.y != self.min_row or self.y != self.max_row:
             self.start_x = self.x = random.choice([self.min_column, self.max_column])
 
-
     def generate_path(self) -> None:
         self.map[self.y][self.x] = 1
         path_length = 0
