@@ -82,11 +82,10 @@ class Map:
                     new_x = move[1] + check[1]
                     if 0 <= new_y < self.max_row + 1 and 0 <= new_x < self.max_column + 1:
                         if self.map[new_y][new_x] == 1 or (new_y - 1 == self.start_y and new_x - 1 == self.start_x) or \
-                                (new_y + 1 == self.start_y and new_x + 1 == self.start_x) or \
                                 (new_y + 1 == self.start_y and new_x + 0 == self.start_x) or \
                                 (new_y + 0 == self.start_y and new_x + 1 == self.start_x) or \
                                 (new_y - 1 == self.start_y and new_x + 0 == self.start_x) or \
-                                (new_y - 0 == self.start_y and new_x + 1 == self.start_x):
+                                (new_y + 0 == self.start_y and new_x - 1 == self.start_x):
                             score += 1
 
                 if score <= 2:
@@ -97,8 +96,7 @@ class Map:
             pass
         if final_moves:
             move = random.choice(final_moves)
-            self.y = move[0]
-            self.x = move[1]
+            self.y, self.x = move
             self.map[self.y][self.x] = 1
             return True
         else:
