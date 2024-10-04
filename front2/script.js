@@ -67,7 +67,7 @@ if (gameMap[row][col] == 1 || gameMap[row][col] == 3){
 			if (vic) {
 				//await sendMoveRequest(col, row);
 				displayVictoryScreen();
-				setTimeout(() => {	myFunction('/remap'); }, 5000);
+				setTimeout(() => {	getMap('/remap'); }, 5000);
 			}
 		}
 	}
