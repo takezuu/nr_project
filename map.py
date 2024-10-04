@@ -18,6 +18,7 @@ class Map:
         self.final = tuple()
         self.start_y = None
         self.start_x = None
+        self.completed = False
         self.logger = logger.logger
         self.logger.info("Экземпляр карты создан")
         self.logger.info(f"Размеры карты rows={self.rows}, columns={self.columns}")
