@@ -6,6 +6,8 @@ class Player:
     def __init__(self, y: int, x: int, logger):
         self.y = y
         self.x = x
+        self.old_y = None
+        self.old_x = None
         self.log = logger.logger
 
     def get_player_position(self) -> dict:
@@ -24,6 +26,8 @@ class Player:
                     if only_game_map[y][x] != 0:
                         if y >= 0 and x >= 0:
                             only_game_map[self.y][self.x] = 1
+                            self.old_y = self.y
+                            self.old_x = self.x
                             self.y = y
                             self.x = x
                             only_game_map[y][x] = 2
@@ -37,7 +41,13 @@ class Player:
             except IndexError:
                 return False, False
         else:
-            only_game_map[self.y][self.x] = 2
+            if self.y == final[0] and self.x == final[1]:
+                only_game_map[self.old_y][self.old_x] = 2
+                only_game_map[self.y][self.x] = 3
+                self.y = self.old_y
+                self.x = self.old_x
+            else:
+                only_game_map[self.y][self.x] = 2
 
     def find_available_moves(self) -> list[tuple]:
         available_moves = []
