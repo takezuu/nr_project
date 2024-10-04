@@ -39,7 +39,7 @@ async def return_map() -> dict:
     return {"map": main_map.map, "playerPosition": {"row": main_player.y, "col": main_player.x}}
 
 
-@app.get("/map/new")
+@app.get("/remap")
 async def return_map() -> dict:
     global main_map, main_player
     main_map = Map(35, 60, logger)
