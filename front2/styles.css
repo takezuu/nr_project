@@ -46,7 +46,7 @@ body {
 
 .cell {
     box-sizing: border-box;
-	opacity: 50%;
+	opacity: 70%;
 }
 
 .cell.active {
@@ -59,4 +59,12 @@ body {
 
 .cell.player {
     background-color: blue;
+}
+
+.cell.falseCell {
+    background-color: green;
+}
+
+.cell.item {
+    background-color: yellow;
 }
