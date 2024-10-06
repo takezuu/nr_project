@@ -8,7 +8,7 @@ let cellSize = 24; // Размер клетки (в пикселях)
 let playerPosition = { row: null, col: null };
 let prevPosition = { row: null, col: null };
 let exitPosition = { row: null, col: null };
-
+let exitEnabled = true;
 // Функция для создания игрового поля
 function createGameBoard(cellSize) {
     // Очищаем поле перед пересозданием
@@ -38,7 +38,7 @@ function createGameBoard(cellSize) {
 					playerPosition.col = col;
 					break;
 				case 3:
-					cell.classList.add('exit');
+					cell.classList.add('exitdisabled');
 					exitPosition.row = row;
 					exitPosition.col = col;
 					break;
@@ -48,6 +48,11 @@ function createGameBoard(cellSize) {
 				case 5:
 				    cell.classList.add('item');
 				    break;
+				case 6:
+					cell.classList.add('exitdisabled');
+					exitPosition.row = row;
+					exitPosition.col = col;
+					break;
 			}
 			cell.addEventListener('click', () => moveHandler(row, col));
             gameBoard.appendChild(cell);
@@ -56,19 +61,13 @@ function createGameBoard(cellSize) {
 }
 
 async function moveHandler(row, col) {
-    // Если уже есть активная клетка, делаем её неактивной
-    /*if (playerPosition.row !== null && playerPosition.col !== null) {
-         // Убираем закраску с предыдущей клетки
-    }*/
 
-	if (gameMap[row][col] == 1 || gameMap[row][col] == 3 || gameMap[row][col] == 5){
-
-		
+	if (gameMap[row][col] == 1 || gameMap[row][col] == 3 || gameMap[row][col] == 5 || gameMap[row][col] == 6){
 		// Делаем кликнутую клетку активной
 		var check = await sendMoveRequest(col, row);
 		if (check == true){
 			gameMap[prevPosition.row][prevPosition.col] = 1;
-			var vic = gameMap[row][col] == 3
+			var vic = gameMap[row][col] == 6
 			gameMap[row][col] = 2;
 			// Обновляем активную клетку
 			playerPosition = { row, col };
@@ -158,6 +157,7 @@ async function sendMoveRequest(col, row) {
     const data = await response.json();
 	//main_map = data.map;
   	playerPosition = data.playerPosition;
+	exitEnabled = data.exitEnabled;
 	return data.moveForward;
 }
 
