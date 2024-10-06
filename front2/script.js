@@ -87,6 +87,7 @@ async function moveHandler(row, col) {
 
 function displayVictoryScreen() {
     // Скрываем игровое поле
+	exitEnabled = false;
     gameBoard.style.display = 'none';
 
     // Создаем контейнер для победного экрана
