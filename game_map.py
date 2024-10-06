@@ -93,8 +93,7 @@ class Map:
         except IndexError:
             pass
         if final_moves:
-            move = random.choice(final_moves)
-            self.y, self.x = move
+            self.y, self.x = random.choice(final_moves)
             self.map[self.y][self.x] = CELL
             return True
         else:
@@ -170,13 +169,13 @@ class Map:
                     path_length += 1
 
     def item_respawn(self):
-        i = 0
-        while i < 5:
+        put_items = []
+        for _ in range(0, 5):
             item_y_x = random.choice(self.final_invalid_moves)
 
-            if self.map[item_y_x[0]][item_y_x[1]] == EXTRA_PATH:
+            if self.map[item_y_x[0]][item_y_x[1]] == EXTRA_PATH and item_y_x not in put_items:
                 self.map[item_y_x[0]][item_y_x[1]] = ITEM
-                i += 1
+                put_items.append(item_y_x)
 
     def convert_map(self):
         self.map = [[CELL if el == EXTRA_PATH else el for el in row] for row in self.map]

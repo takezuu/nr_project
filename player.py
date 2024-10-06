@@ -29,6 +29,8 @@ class Player:
                         if y >= 0 and x >= 0:
                             if only_game_map[y][x] == ITEM:
                                 self.items += 1
+                            if y == final[0] and x == final[1] and self.items < 3:
+                                return False, False
 
                             only_game_map[self.y][self.x] = CELL
                             self.old_y = self.y
@@ -36,7 +38,6 @@ class Player:
                             self.y = y
                             self.x = x
                             only_game_map[self.y][self.x] = PLAYER
-
                             # проверка, можно ли идти на финланл
                             if self.y == final[0] and self.x == final[1] and self.items >= 3:
                                 return True, True
