@@ -6,6 +6,7 @@ const page = document.querySelector('body');
 let gameMap = [0,0]; 
 let cellSize = 24; // Размер клетки (в пикселях)
 let playerPosition = { row: null, col: null };
+let prevPosition = { row: null, col: null };
 let exitPosition = { row: null, col: null };
 
 // Функция для создания игрового поля
@@ -66,7 +67,7 @@ async function moveHandler(row, col) {
 		// Делаем кликнутую клетку активной
 		var check = await sendMoveRequest(col, row);
 		if (check == true){
-			gameMap[playerPosition.row][playerPosition.col] = 1;
+			gameMap[prevPosition.row][prevPosition.col] = 1;
 			var vic = gameMap[row][col] == 3
 			gameMap[row][col] = 2;
 			// Обновляем активную клетку
@@ -113,6 +114,7 @@ function displayVictoryScreen() {
 
 document.addEventListener('keydown', (event) => {
 	
+	prevPosition = playerPosition;
 	var row =  playerPosition.row;
 	var col  =  playerPosition.col;
 	if (event.key === 'ArrowRight') {
