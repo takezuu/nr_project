@@ -54,6 +54,10 @@ body {
 }
 
 .cell.exit {
+    background-color: green;
+}
+
+.cell.exitdisabled {
     background-color: red;
 }
 

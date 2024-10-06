@@ -15,8 +15,6 @@ class MoveReq(BaseModel):
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="front2"), name="static")
 game = Game(rows_setting, columns_setting)
-
-
 @app.get("/")
 async def home():
     return FileResponse("front2/board.html")
@@ -29,6 +27,7 @@ async def main():
 
 @app.get("/map")
 async def return_map() -> dict:
+    print('im here')
     game.player.set_player_position(game.map)
     return {"map": game.map.map, "playerPosition": {"row": game.player.y, "col": game.player.x}}
 
@@ -48,11 +47,13 @@ async def return_new_map():
 async def move_func(move: MoveReq):
     try:
         bool_move, completed = game.player.set_player_position(game.map, move)
+        exit_enabled = game.player.check_exit(game.map)
         if completed:
             game.map.completed = True
             return {"playerPosition": {"row": game.player.y, "col": game.player.x}, "complete": 1,
-                    "moveForward": bool_move}
+                    "moveForward": bool_move, "exitEnabled": exit_enabled}
         else:
-            return {"playerPosition": {"row": game.player.y, "col": game.player.x}, "moveForward": bool_move}
+            return {"playerPosition": {"row": game.player.y, "col": game.player.x}, "moveForward": bool_move,
+                    "exitEnabled": exit_enabled}
     except TypeError:
         pass

@@ -3,6 +3,7 @@ from variables import WALL, CELL, PLAYER, ITEM, FINAL
 
 
 class Player:
+    items = 0
 
     def __init__(self, y: int, x: int, logger):
         self.y = y
@@ -16,7 +17,6 @@ class Player:
         return {"y": self.y, "x": self.x}
 
     def set_player_position(self, game_map: Map, direction=None):
-        self.log.info(f"new coords {self.y} {self.x}")
         final = game_map.final
         only_game_map = game_map.map
         if direction:
@@ -29,6 +29,7 @@ class Player:
                         if y >= 0 and x >= 0:
                             if only_game_map[y][x] == ITEM:
                                 self.items += 1
+                                Player.items += 1
                             if y == final[0] and x == final[1] and self.items < 3:
                                 return False, False
 
@@ -39,9 +40,11 @@ class Player:
                             self.x = x
                             only_game_map[self.y][self.x] = PLAYER
                             # проверка, можно ли идти на финланл
-                            if self.y == final[0] and self.x == final[1] and self.items >= 3:
+                            if self.y == final[0] and self.x == final[1] and (
+                                    self.items >= 3 or Player.items == game_map.items):
                                 return True, True
-                            elif self.y == final[0] and self.x == final[1] and self.items < 3:
+                            elif self.y == final[0] and self.x == final[1] and (
+                                    self.items < 3 or Player.items < game_map.items):
                                 return False, False
                             else:
                                 return True, False
@@ -70,3 +73,9 @@ class Player:
             except IndexError:
                 pass
         return available_moves
+
+    def check_exit(self, game_map: Map):
+        if Player.items == game_map.items or self.items >= 3:
+            return True
+        else:
+            return False
