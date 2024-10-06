@@ -8,6 +8,7 @@ from logger import Logger
 class Map:
 
     def __init__(self, rows: int, columns: int, logger: Logger):
+        self.items = 0
         self.columns = columns
         self.rows = rows
         self.min_row = 0
@@ -176,6 +177,7 @@ class Map:
             if self.map[item_y_x[0]][item_y_x[1]] == EXTRA_PATH and item_y_x not in put_items:
                 self.map[item_y_x[0]][item_y_x[1]] = ITEM
                 put_items.append(item_y_x)
+                self.items += 1
 
     def convert_map(self):
         self.map = [[CELL if el == EXTRA_PATH else el for el in row] for row in self.map]

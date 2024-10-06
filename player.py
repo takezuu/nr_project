@@ -3,6 +3,7 @@ from variables import WALL, CELL, PLAYER, ITEM, FINAL
 
 
 class Player:
+    items = 0
 
     def __init__(self, y: int, x: int, logger):
         self.y = y
@@ -29,6 +30,7 @@ class Player:
                         if y >= 0 and x >= 0:
                             if only_game_map[y][x] == ITEM:
                                 self.items += 1
+                                Player.items += 1
                             if y == final[0] and x == final[1] and self.items < 3:
                                 return False, False
 
@@ -39,9 +41,11 @@ class Player:
                             self.x = x
                             only_game_map[self.y][self.x] = PLAYER
                             # проверка, можно ли идти на финланл
-                            if self.y == final[0] and self.x == final[1] and self.items >= 3:
+                            if self.y == final[0] and self.x == final[1] and (
+                                    self.items >= 3 or Player.items == game_map.items):
                                 return True, True
-                            elif self.y == final[0] and self.x == final[1] and self.items < 3:
+                            elif self.y == final[0] and self.x == final[1] and (
+                                    self.items < 3 or Player.items < game_map.items):
                                 return False, False
                             else:
                                 return True, False
