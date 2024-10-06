@@ -65,12 +65,12 @@ function createGameBoard(cellSize) {
 
 async function moveHandler(row, col) {
 
-	if (gameMap[row][col] == 1 || gameMap[row][col] == 3 || gameMap[row][col] == 5 || gameMap[row][col] == 6){
+	if (gameMap[row][col] == 1 || gameMap[row][col] == 3 || gameMap[row][col] == 5){
 		// Делаем кликнутую клетку активной
 		var check = await sendMoveRequest(col, row);
 		if (check == true){
 			gameMap[prevPosition.row][prevPosition.col] = 1;
-			var vic = gameMap[row][col] == 6
+			var vic = gameMap[row][col] == 3
 			gameMap[row][col] = 2;
 			// Обновляем активную клетку
 			playerPosition = { row, col };
