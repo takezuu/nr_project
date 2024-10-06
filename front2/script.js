@@ -8,7 +8,7 @@ let cellSize = 24; // Размер клетки (в пикселях)
 let playerPosition = { row: null, col: null };
 let prevPosition = { row: null, col: null };
 let exitPosition = { row: null, col: null };
-let exitEnabled = true;
+let exitEnabled = false;
 // Функция для создания игрового поля
 function createGameBoard(cellSize) {
     // Очищаем поле перед пересозданием
