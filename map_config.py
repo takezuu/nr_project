@@ -1,5 +1,4 @@
-rows_setting = 15
-columns_setting = 25
-path_setting = 50
-false_path_setting = 4
-
+rows_setting = 20
+columns_setting = 30
+path_setting = 30
+false_path_setting = 1

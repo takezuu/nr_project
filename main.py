@@ -55,4 +55,4 @@ async def move_func(move: MoveReq):
         else:
             return {"playerPosition": {"row": game.player.y, "col": game.player.x}, "moveForward": bool_move}
     except TypeError:
-        raise HTTPException(status_code=400, detail="Invalid move data.")
+        pass
