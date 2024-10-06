@@ -95,7 +95,7 @@ function displayVictoryScreen() {
 
     // Добавляем изображение и текст
     const victoryImage = document.createElement('img');
-    victoryImage.src = 'static/bg2.jpg'; // Укажите путь к изображению
+    victoryImage.src = '/static/bg2.jpg'; // Укажите путь к изображению
     const victoryText = document.createElement('h1');
     victoryText.textContent = 'You won this round!!!\r\nNew map loading...';
 

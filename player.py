@@ -17,7 +17,6 @@ class Player:
         return {"y": self.y, "x": self.x}
 
     def set_player_position(self, game_map: Map, direction=None):
-        self.log.info(f"new coords {self.y} {self.x}")
         final = game_map.final
         only_game_map = game_map.map
         if direction:
@@ -74,3 +73,10 @@ class Player:
             except IndexError:
                 pass
         return available_moves
+
+    def check_exit(self, game_map: Map):
+        print("all", Player.items, "self", self.items)
+        if Player.items == game_map.items or self.items >= 3:
+            return True
+        else:
+            return False
