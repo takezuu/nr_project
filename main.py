@@ -47,9 +47,7 @@ async def return_new_map():
 async def move_func(move: MoveReq):
     try:
         bool_move, completed = game.player.set_player_position(game.map, move)
-        print(bool_move, completed)
         exit_enabled = game.player.check_exit(game.map)
-        print(exit_enabled)
         if completed:
             game.map.completed = True
             return {"playerPosition": {"row": game.player.y, "col": game.player.x}, "complete": 1,

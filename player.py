@@ -75,7 +75,6 @@ class Player:
         return available_moves
 
     def check_exit(self, game_map: Map):
-        print("all", Player.items, "self", self.items)
         if Player.items == game_map.items or self.items >= 3:
             return True
         else:
