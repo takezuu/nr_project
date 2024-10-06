@@ -1,4 +1,4 @@
-from map import Map
+from game_map import Map
 from variables import WALL, CELL, PLAYER, ITEM, FINAL
 
 

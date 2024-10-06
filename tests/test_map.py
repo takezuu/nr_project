@@ -1,4 +1,4 @@
-from map import Map
+from game_map import Map
 from logger import Logger
 logger = Logger()
 main_map = Map(10, 10, logger)
