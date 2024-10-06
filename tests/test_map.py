@@ -1,6 +1,7 @@
 from map import Map
-
-main_map = Map(5, 5)
+from logger import Logger
+logger = Logger()
+main_map = Map(10, 10, logger)
 main_map.generate_map()
 
 main_map.print_map()

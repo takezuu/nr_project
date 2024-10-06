@@ -5,6 +5,7 @@ from starlette.staticfiles import StaticFiles
 
 from logger import Logger
 from map import Map
+from map_config import rows_setting, columns_setting
 from player import Player
 
 
@@ -17,7 +18,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="front2"), name="static")
 logger = Logger()
 
-main_map = Map(30, 40, logger)
+main_map = Map(rows_setting, columns_setting, logger)
 main_map.generate_map()
 
 main_player = Player(main_map.start_y, main_map.start_x, logger)
@@ -46,8 +47,8 @@ async def return_new_map():
 
     if not main_map.completed:
         return "Now it's your problem go back to default URL"
-    main_map.create_empty_map()
     main_map.completed = False
+    main_player.items = 0
     main_map.generate_map()
 
     main_player.y = main_map.start_y
@@ -63,7 +64,7 @@ async def move_func(move: MoveReq):
     global main_player, main_map
     try:
         bool_move, completed = main_player.set_player_position(main_map, move)
-
+        print(f"bools bool_move={bool_move} completed={completed}")
         if completed:
             main_map.completed = True
             return {"playerPosition": {"row": main_player.y, "col": main_player.x}, "complete": 1,

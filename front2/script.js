@@ -41,6 +41,12 @@ function createGameBoard(cellSize) {
 				case 3:
 					cell.classList.add('exit');
 					break;
+				case 4:
+				    cell.classList.add('falseCell');
+				    break;
+				case 5:
+				    cell.classList.add('item');
+				    break;
 			}
 			cell.addEventListener('click', () => moveHandler(row, col));
             gameBoard.appendChild(cell);
@@ -53,8 +59,8 @@ async function moveHandler(row, col) {
     if (playerPosition.row !== null && playerPosition.col !== null) {
         gameMap[playerPosition.row][playerPosition.col] = 1; // Убираем закраску с предыдущей клетки
     }
-	
-if (gameMap[row][col] == 1 || gameMap[row][col] == 3){
+
+if (gameMap[row][col] == 1 || gameMap[row][col] == 3 || gameMap[row][col] == 5){
 		// Делаем кликнутую клетку активной
 		var check = await sendMoveRequest(col, row);
 		if (check == true){

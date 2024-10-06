@@ -1,0 +1,8 @@
+OUT = -1
+WALL = 0
+CELL = 1
+PLAYER = 2
+FINAL = 3
+EXTRA_PATH = 4
+ITEM = 5
+
