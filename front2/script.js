@@ -38,10 +38,12 @@ function createGameBoard(cellSize) {
 					playerPosition.col = col;
 					break;
 				case 3:
-					if (!exitEnabled)
-						cell.classList.add('exitdisabled');
-					else
+					if (exitEnabled){
 						cell.classList.add('exit');
+					}
+					else {
+						cell.classList.add('exitdisabled');
+					}
 					exitPosition.row = row;
 					exitPosition.col = col;
 					break;
@@ -51,11 +53,7 @@ function createGameBoard(cellSize) {
 				case 5:
 				    cell.classList.add('item');
 				    break;
-				case 6:
-					cell.classList.add('exit');
-					exitPosition.row = row;
-					exitPosition.col = col;
-					break;
+				
 			}
 			cell.addEventListener('click', () => moveHandler(row, col));
             gameBoard.appendChild(cell);
