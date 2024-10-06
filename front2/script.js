@@ -59,8 +59,13 @@ async function moveHandler(row, col) {
     if (playerPosition.row !== null && playerPosition.col !== null) {
         gameMap[playerPosition.row][playerPosition.col] = 1; // Убираем закраску с предыдущей клетки
     }
+<<<<<<< HEAD
 
 if (gameMap[row][col] == 1 || gameMap[row][col] == 3 || gameMap[row][col] == 5){
+=======
+	
+	if (gameMap[row][col] == 1 || gameMap[row][col] == 3 || gameMap[row][col] == 4){
+>>>>>>> 9cd679f (little fix)
 		// Делаем кликнутую клетку активной
 		var check = await sendMoveRequest(col, row);
 		if (check == true){
