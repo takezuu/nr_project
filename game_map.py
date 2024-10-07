@@ -15,13 +15,13 @@ class Map:
         self.max_row = None
         self.min_column = 0
         self.max_column = None
-        self.y = None
-        self.x = None
+        self.row = None
+        self.col = None
         self.map = None
         self.final = tuple()
         self.final_invalid_moves = []
-        self.start_y = None
-        self.start_x = None
+        self.start_row = None
+        self.start_col = None
         self.completed = False
         self.logger = logger.logger
         self.logger.info("Экземпляр карты создан")
@@ -39,14 +39,14 @@ class Map:
         self.max_row = len(self.map) - 1
         self.max_column = len(self.map[0]) - 1
 
-        self.start_y = self.y = random.randint(self.min_row, self.max_row)
-        self.start_x = self.x = random.randint(self.min_column, self.max_column)
+        self.start_row = self.row = random.randint(self.min_row, self.max_row)
+        self.start_col = self.col = random.randint(self.min_column, self.max_column)
 
-        if self.y != self.min_row or self.y != self.max_row:
-            self.start_x = self.x = random.choice([self.min_column, self.max_column])
+        if self.row != self.min_row or self.row != self.max_row:
+            self.start_col = self.col = random.choice([self.min_column, self.max_column])
 
     def generate_path(self) -> None:
-        self.map[self.y][self.x] = CELL
+        self.map[self.row][self.col] = CELL
         path_length = 0
         while path_length < path_setting:
             loop_flag = True
@@ -59,16 +59,16 @@ class Map:
                     path_length = 0
                     self.create_empty_map()
                     self.generate_start_position()
-                    self.map[self.y][self.x] = CELL
+                    self.map[self.row][self.col] = CELL
 
     def find_available_moves(self) -> list[tuple]:
         available_moves = []
         check_tuples = [(0, -1), (0, 1), (-1, 0), (1, 0)]  # координаты для расчета доступных ходов
         for check in check_tuples:
             try:
-                if self.map[self.y + check[0]][self.x + check[1]] == WALL:
-                    if (self.y + check[0]) != OUT and (self.x + check[1]) != OUT:
-                        available_moves.append((self.y + check[0], self.x + check[1]))
+                if self.map[self.row + check[0]][self.col + check[1]] == WALL:
+                    if (self.row + check[0]) != OUT and (self.col + check[1]) != OUT:
+                        available_moves.append((self.row + check[0], self.col + check[1]))
             except IndexError:
                 pass
         return available_moves
@@ -94,12 +94,12 @@ class Map:
         except IndexError:
             pass
         if final_moves:
-            self.y, self.x = random.choice(final_moves)
-            self.map[self.y][self.x] = CELL
+            self.row, self.col = random.choice(final_moves)
+            self.map[self.row][self.col] = CELL
             return True
         else:
-            self.map[self.y][self.x] = FINAL
-            self.final = (self.y, self.x)
+            self.map[self.row][self.col] = FINAL
+            self.final = (self.row, self.col)
             return False
 
     def find_right_positions(self):
@@ -189,5 +189,5 @@ class Map:
         self.generate_false_path()
         self.item_respawn()
         self.convert_map()
-        self.logger.info(f"Сгенерирована стартовая точка: row={self.start_y}, col={self.start_x}")
+        self.logger.info(f"Сгенерирована стартовая точка: row={self.start_row}, col={self.start_col}")
         self.logger.info("Генерация карты окончена")
