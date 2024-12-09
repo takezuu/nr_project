@@ -2,6 +2,8 @@
 
 A web-based maze game where players navigate through a dynamically generated maze, collect items, and aim for the exit. The game interacts with players via an API built with FastAPI.
 
+Ip address with maze, you can play game here http://89.22.228.122:5555/
+
 ## Features
 
 - **Dynamic Maze Generation**: The maze, including paths, items, and the exit, is generated randomly.
@@ -61,6 +63,7 @@ Copy code
   "move_successful": <bool>,
   "game_completed": <bool>
 }
+
 player_position: The updated position of the player.
 move_successful: Whether the move was successful or not.
 game_completed: Whether the player has reached the exit and won the game.
