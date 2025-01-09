@@ -1,69 +1,74 @@
 body {
-	margin: 0;
-	height: 100vh; /* Занимаем всю высоту экрана */
-	display: flex;
-	justify-content: center;  /* Центрирование по горизонтали */
-	align-items: center;      /* Центрирование по вертикали */
-	background-color: black;
-	background-image: url("bg1.jpg");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #262525;
+	background-image: none;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+}
+
+#gameBoard {
+    display: flex;
+    flex-wrap: wrap;
+    background-image: url("bg1.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 }
 
-#game-container {
-    display: grid;
-    grid-template-columns: repeat(5, 50px); /* Сетка для 5 колонок */
-    grid-template-rows: repeat(3, 50px);    /* Сетка для 3 строк */
-    gap: 1px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-	border-style: solid;
-	opacity: 70%;
+/* Стили для победного экрана */
+#victoryScreen {
+    display: none; /* Скрыт по умолчанию */
+    position: relative;
+    text-align: center;
+    width: 100%; /* Ширина и высота контейнера для победного экрана */
+    height: 100%;
 }
 
-#win
-{
-	display: none;
-	color: white;
-	text-align: center;
-	font-size: 50px;
-	text-shadow: 5px 2px black;
+#victoryScreen img {
+    width: 100%; /* Картинка растягивается по ширине контейнера */
+    height: 100%; /* Картинка растягивается по высоте контейнера */
+    object-fit: cover; /* Обеспечивает полное покрытие области, растягивая изображение */
+}
+
+#victoryScreen h1 {
+    position: absolute;
+    top: 50%; /* Центрируем текст по вертикали */
+    left: 50%; /* Центрируем текст по горизонтали */
+    transform: translate(-50%, -50%); /* Центровка текста */
+    font-size: 3em;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Тень для улучшения видимости текста на фоне */
 }
 
 .cell {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-sizing: border-box;
 	opacity: 70%;
-
-}
-.subcell
-{
-	width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-	
-	
 }
 
-.exit {
-    background-color: red;
-}
-
-.player {
-    background-color: blue;
-}
-
-.filed {
+.cell.active {
     background-color: purple;
 }
 
-.empty {
-    background-color: none;
+.cell.exit {
+    background-color: green;
+}
+
+.cell.exitdisabled {
+    background-color: red;
+}
+
+.cell.player {
+    background-color: blue;
+}
+
+.cell.falseCell {
+    background-color: green;
+}
+
+.cell.item {
+    background-color: yellow;
 }

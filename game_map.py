@@ -24,8 +24,8 @@ class Map:
         self.start_col = None
         self.completed = False
         self.logger = logger.logger
-        self.logger.info("Экземпляр карты создан")
-        self.logger.info(f"Размеры карты rows={self.rows}, columns={self.columns}")
+        self.logger.info("Map initialized")
+        self.logger.info(f"Map size rows={self.rows}, columns={self.columns}")
 
     def create_empty_map(self) -> None:
         self.map = [[WALL for _ in range(self.columns)] for _ in range(self.rows)]
@@ -182,12 +182,19 @@ class Map:
     def convert_map(self):
         self.map = [[CELL if el == EXTRA_PATH else el for el in row] for row in self.map]
 
+    def erase_map(self):
+        self.map = [[WALL if el == CELL else el for el in row] for row in self.map]
+
     def generate_map(self) -> None:
         self.create_empty_map()
         self.generate_start_position()
+        self.logger.info(f"Start position: row={self.start_row}, col={self.start_col}")
         self.generate_path()
         self.generate_false_path()
+        while len(self.final_invalid_moves) < 5:
+            self.erase_map()
+            self.generate_path()
+            self.generate_false_path()
         self.item_respawn()
         self.convert_map()
-        self.logger.info(f"Сгенерирована стартовая точка: row={self.start_row}, col={self.start_col}")
-        self.logger.info("Генерация карты окончена")
+        self.logger.info("Map generation is finished")
