@@ -13,18 +13,18 @@ class MoveReq(BaseModel):
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="front2"), name="static")
+app.mount("/static", StaticFiles(directory="front"), name="static")
 game = Game(rows_setting, columns_setting)
 
 
 @app.get("/")
 async def home():
-    return FileResponse("front2/board.html")
+    return FileResponse("front/board.html")
 
 
 @app.get("/favicon.ico")
 async def main():
-    return FileResponse("front2/favicon.png")
+    return FileResponse("front/favicon.png")
 
 
 @app.get("/map")
