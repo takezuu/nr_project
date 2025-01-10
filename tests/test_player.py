@@ -18,9 +18,3 @@ class TestPlayer(unittest.TestCase):
         player_position = self.player.get_player_position()
         self.assertEqual(self.map.start_row, player_position["row"], "row is not equal")
         self.assertEqual(self.map.start_col, player_position["col"], "col is not equal")
-
-    def test_set_player_position_new_place(self):
-        self.player.set_player_position(self.map)
-        player_position = self.player.get_player_position()
-        self.assertEqual(self.map.start_row, player_position["row"], "row is not equal")
-        self.assertEqual(self.map.start_col, player_position["col"], "col is not equal")
